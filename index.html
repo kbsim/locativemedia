@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!--This is how you comment for html-->
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+    <title> My Map </title>
+    <!--This where you put all your dependencies-->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+    /*this CSS section is where you style your page*/
+    /*this is how you comment in CSS*/
+	     body { margin: 0; padding: 0; }
+	     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+       .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+              }
+      </style>
+  </head>
+  <body>
+    <div id='map'></div>
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia3NpbTA3IiwiYSI6ImNrZnV6OTNyMjBreGkyem40bjc5MXl4M20ifQ.D8e5aKUdqAqMMNvUvQgIXw';
+    //Call in your Map
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/ksim07/ckh5bt48z03q419nn9d24dhgr'
+        //center: [37.87, -122.25], // starting position [lng, lat]
+        //zoom: 3 // starting zoom]
+      });
+
+// Initialize the geolocate control.
+  var geolocate = new mapboxgl.GeolocateControl({
+        positionOptions: {
+        enableHighAccuracy: true
+          },
+        trackUserLocation: true
+        });
+
+  // Add the control to the map.
+    map.addControl(geolocate);
+    map.on('load', function() {
+    geolocate.trigger();
+    //Add your feature collection here
+    map.addSource('places', {
+                'type': 'geojson',
+                'data': {
+                //Add your GeoJSON data here
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Samsung C&T Seocho Office',
+                        'description': 'Samsung Headquarter'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02614,
+                          37.495887
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Samsung Seocho Garden Suite Apartments',
+                        'description': 'Apartment brand by Samsung'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02588,
+                          37.493993
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Seocho Raemian Estige ',
+                        'description': 'Apartment brand by Samsung'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02503,
+                          37.492834
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Samsung Leports Center',
+                        'description': 'Sports center'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02151,
+                          37.491775
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Shilla Stay Seocho',
+                        'description': 'Hotel brand by Samsung'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.03008,
+                          37.48936
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Artisee',
+                        'description': 'Cafe by Samsung'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02862,
+                          37.496625
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'title': 'Samsung Electronics Seocho Office',
+                        'description': 'Samsung Headquarter'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02673137187958,
+                          37.49634164749462
+                        ]
+                      }
+                    },
+                    {
+                      'type': 'Feature',
+                      'properties': {
+                        'marker-color': '#7e7e7e',
+                        'marker-size': 'medium',
+                        'marker-symbol': '',
+                        'title': 'Samsung Life Insurance Seocho Tower',
+                        'description': 'Samsung Headquarter'
+                      },
+                      'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                          127.02595353126526,
+                          37.49674171864485
+                        ]
+                      }
+                    }
+                  ]
+                }
+              });
+              // Add a layer showing the places.
+                map.addLayer({
+                  'id': 'places',
+                  'type': 'symbol',
+                  'source': 'places',
+                  'layout': {
+                      'icon-image': 'aquarium-15',
+                      'icon-allow-overlap': true
+              }
+        });
+          // When a click event occurs on a feature in the places layer, open a popup at the
+          // location of the feature, with description HTML from its properties.
+          map.on('click', 'places', function(e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties.description;
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+      });
+  });
+    </script>
+  </body>
+</html>
